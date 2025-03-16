@@ -1,4 +1,3 @@
-// backend/models/Terms.js
 const mongoose = require('mongoose');
 
 const TermsSchema = new mongoose.Schema({

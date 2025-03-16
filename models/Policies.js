@@ -1,4 +1,3 @@
-// backend/models/Policies.js
 const mongoose = require("mongoose");
 
 const PoliciesSchema = new mongoose.Schema({
