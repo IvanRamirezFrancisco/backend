@@ -1,17 +1,15 @@
-// backend/routes/policiesRoutes.js
 const express = require("express");
 const router = express.Router();
 const Policies = require("../models/Policies");
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 
-// Middleware de validación actualizado ✅
 const validatePolicy = [
   check("title", "El título es obligatorio").not().isEmpty(),
   check("description", "La descripción es obligatoria").not().isEmpty(),
 ];
 
-// CREATE -> /api/policies ✅
+
 router.post("/", validatePolicy, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -19,8 +17,8 @@ router.post("/", validatePolicy, async (req, res) => {
   }
 
   try {
-    const { title, description } = req.body; // ✅ Campos actualizados
-    const newPolicy = await Policies.create({ title, description }); // ✅
+    const { title, description } = req.body; 
+    const newPolicy = await Policies.create({ title, description }); 
     res.status(201).json({ success: true, data: newPolicy });
   } catch (error) {
     res.status(500).json({
@@ -31,13 +29,11 @@ router.post("/", validatePolicy, async (req, res) => {
   }
 });
 
-// GET ALL -> /api/policies
 router.get("/", async (req, res) => {
   try {
     const policies = await Policies.find()
-      .select("title description createdAt") // Solo campos necesarios
-      .lean(); // Mejor performance
-    
+      .select("title description createdAt") 
+      .lean(); 
     res.status(200).json(policies);
   } catch (error) {
     res.status(500).json({
@@ -47,7 +43,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET by ID -> /api/policies/:id
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -72,7 +67,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// UPDATE -> /api/policies/:id ✅
 router.put("/:id", validatePolicy, async (req, res) => {
   const { id } = req.params;
   const errors = validationResult(req);
@@ -86,12 +80,12 @@ router.put("/:id", validatePolicy, async (req, res) => {
   }
 
   try {
-    const { title, description } = req.body; // ✅ Campos actualizados
+    const { title, description } = req.body; 
 
 
     const updatedPolicy = await Policies.findByIdAndUpdate(
       id,
-      { title, description }, // ✅
+      { title, description }, 
       { new: true }
     ).lean(); 
 
@@ -111,7 +105,6 @@ router.put("/:id", validatePolicy, async (req, res) => {
   }
 });
 
-// DELETE -> /api/policies/:id
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
 

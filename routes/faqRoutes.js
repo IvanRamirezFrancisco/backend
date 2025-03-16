@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Faq = require("../models/Faq");
 
-// Obtener todas las preguntas frecuentes
 router.get("/", async (req, res) => {
   try {
     const faqs = await Faq.find();
@@ -12,7 +11,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Agregar una nueva pregunta frecuente
 router.post("/", async (req, res) => {
   try {
     const { question, answer } = req.body;
@@ -27,7 +25,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Editar (actualizar) una pregunta frecuente
 router.put("/:id", async (req, res) => {
   try {
     const { answer } = req.body;
@@ -48,7 +45,6 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Eliminar una pregunta frecuente
 router.delete("/:id", async (req, res) => {
   try {
     const deletedFaq = await Faq.findByIdAndDelete(req.params.id);

@@ -1,17 +1,14 @@
-// backend/routes/termsRoutes.js
 const express = require('express');
 const router = express.Router();
 const Term = require('../models/Terms');
 const { check, validationResult } = require("express-validator");
 const mongoose = require("mongoose");
 
-// Middleware de validación para Términos
 const validateTerm = [
   check("title", "El título es obligatorio").not().isEmpty(),
   check("description", "La descripción es obligatoria").not().isEmpty(),
 ];
 
-// CREATE -> /api/terms
 router.post("/", validateTerm, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -31,7 +28,6 @@ router.post("/", validateTerm, async (req, res) => {
   }
 });
 
-// GET ALL -> /api/terms
 router.get("/", async (req, res) => {
   try {
     const terms = await Term.find()
@@ -46,7 +42,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// GET by ID -> /api/terms/:id
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -67,7 +62,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// UPDATE -> /api/terms/:id
 router.put("/:id", validateTerm, async (req, res) => {
   const { id } = req.params;
   const errors = validationResult(req);
@@ -97,7 +91,6 @@ router.put("/:id", validateTerm, async (req, res) => {
   }
 });
 
-// DELETE -> /api/terms/:id
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
